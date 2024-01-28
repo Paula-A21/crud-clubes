@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => { 
-    sequelize.define("Club", {
+    sequelize.define("Clubs", {
         id_UUID: { 
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
@@ -20,11 +20,11 @@ module.exports = (sequelize) => {
         },
         start_of_season:{ //currentSeason.startDate
             type: DataTypes.DATEONLY,  
-            allowNull: false
+            allowNull: true
         },
         end_of_season:{ //currentSeason.endDate
             type: DataTypes.DATEONLY,
-            allowNull: false
+            allowNull: true
         },
         winner_name:{ //winner.shortName
             type: DataTypes.STRING,
