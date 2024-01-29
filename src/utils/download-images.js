@@ -24,7 +24,7 @@ const downloadImages = async () => {
         'X-Auth-Token': '2cba144727404798acb1f39490a5cf20'
       },
     });
-    console.log(response);
+    
     const teams = response.data.teams;
     
     if (Array.isArray(teams)) {

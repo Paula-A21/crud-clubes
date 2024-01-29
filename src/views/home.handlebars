@@ -1,0 +1,16 @@
+<h1> This is a soccer club page </h1>
+
+<span> Some clubs </span>
+
+<ul>
+    {{#each clubs as |club|}}
+        <li> 
+            {{club.club_name}}
+            <a>View</a> 
+            <a>Update</a> 
+            <a>Delete</a>
+        </li>
+    {{/each}}
+</ul>
+
+<button> Create your club!</button>

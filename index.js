@@ -3,7 +3,7 @@ const { conn } = require('./src/db');
 const { fetchClubs } = require("./src/utils/fetch-clubs");
 const PORT = 3001;
 
-conn.sync({ force: true }).then(async () => {
+conn.sync({ force: false }).then(async () => {
     await fetchClubs();
     server.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);

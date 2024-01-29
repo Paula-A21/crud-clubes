@@ -19,9 +19,8 @@ const fetchClubs = async () => {
 
     const {teams} = data;
 
-    const NEW_CLUB = Promise.all(
+    const NEW_CLUB = await Promise.all(
       teams.map((club) => {
-        console.log(club);
         const CREATE_CLUB = Clubs.create({
           id: club.id,
           club_name: club.shortName,
@@ -32,7 +31,7 @@ const fetchClubs = async () => {
         return CREATE_CLUB;
       })
     );
-    console.log(NEW_CLUB)
+    
     return NEW_CLUB;
 
   } catch (error) {
