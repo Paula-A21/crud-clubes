@@ -1,33 +1,38 @@
 const { Clubs } = require("../db");
 const axios = require("axios");
-const URL = "https://api.football-data.org/v4/competitions";
+const URL = "https://api.football-data.org/v4/teams";
 
 const fetchClubs = async () => {
   try {
-    const {data} = await axios.get(`${URL}`);
 
-    const {competitions} = data;
+    const count = await Clubs.count();
+    
+    if (count > 0) { //en caso de que ya se hayan clubs registrados esta funcion no se sigue ejecutando
+      return;
+    }
 
-    console.log(competitions.slice(0, 2));
+    const {data} = await axios.get(`${URL}`, {
+      headers: {
+        'X-Auth-Token': '2cba144727404798acb1f39490a5cf20'
+      }
+    });
+
+    const {teams} = data;
 
     const NEW_CLUB = Promise.all(
-      competitions.map((club) => {
+      teams.map((club) => {
         console.log(club);
         const CREATE_CLUB = Clubs.create({
           id: club.id,
-          country_name: club.area.name,
-          cup_name: club.name,
-          start_of_season: club?.currentSeason?.startDate,
-          end_of_season: club?.currentSeason?.endDate,
-          winner_name: club?.winner?.shortName,
-          winner_adress: club?.winner?.address
+          club_name: club.shortName,
+          club_adress: club.address,
+          club_foundation_year:club.founded,
         });
-        console.log("Create club" + CREATE_CLUB);
+  
         return CREATE_CLUB;
       })
     );
-    
-    console.log("Se creo correctamente el nuevo club" + NEW_CLUB);
+    console.log(NEW_CLUB)
     return NEW_CLUB;
 
   } catch (error) {
