@@ -7,8 +7,6 @@ const getAllClubsHandler = async (req, res) => {
     try {
 
         if (req.path === '/') {
-        
-            console.log(CLUBS);
             const randomClubs = CLUBS.sort(() => 0.5 - Math.random()).slice(0, 3);
             res.render('home', { clubs: randomClubs });
         } else {
