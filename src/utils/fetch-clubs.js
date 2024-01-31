@@ -1,6 +1,7 @@
 const { Clubs } = require("../db");
 const axios = require("axios");
 const URL = "https://api.football-data.org/v4/teams";
+const { downloadImages } = require("./download-images");
 
 const fetchClubs = async () => {
   try {
@@ -10,6 +11,8 @@ const fetchClubs = async () => {
     if (count > 0) { //en caso de que ya se hayan clubs registrados esta funcion no se sigue ejecutando
       return;
     }
+
+    downloadImages(); //si no existen clubs, se descargan las imagenes de los emblemas localmente
 
     const {data} = await axios.get(`${URL}`, {
       headers: {

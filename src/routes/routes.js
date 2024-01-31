@@ -7,8 +7,8 @@ const { updateClubHandler } = require("../handlers/put-clubs-handlers");
 const {createClubHandler} = require("../handlers/post-clubs-handlers")
 
 router.get('/', getAllClubsHandler);
-router.post('/', createClubHandler);
-router.delete('/', deleteClubHandler);
-router.put('/', updateClubHandler);
+router.post('/club', createClubHandler);
+router.delete('/club/:club_id', deleteClubHandler);
+router.put('/club/:club_id', updateClubHandler);
 
 module.exports = router;

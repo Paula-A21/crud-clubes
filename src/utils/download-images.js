@@ -42,4 +42,6 @@ const downloadImages = async () => {
   }
 };
 
-downloadImages();
+module.exports = {
+  downloadImages
+};
