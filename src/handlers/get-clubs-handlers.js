@@ -6,11 +6,11 @@ const getAllClubsHandler = async (req, res) => {
 
     try {
 
-        if (req.path === '/') {
+        if (req.path === '/home') {
             const randomClubs = CLUBS.sort(() => 0.5 - Math.random()).slice(0, 3);
             res.render('home', { clubs: randomClubs });
         } else {
-            res.status(200).json(CLUBS);
+            res.render('all-clubs', { });
         }
 
     } catch (error) {

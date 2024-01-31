@@ -46,6 +46,21 @@ thead {
 	}
 }
 
+.button-container {
+            display: flex;
+            justify-content: space-between;
+            width: 800px;
+        }
+
+        button {
+            background-color: #1e2a62;
+            color: #fff;
+            padding: 10px;
+            margin-top: 50px;
+            border: none;
+            cursor: pointer;
+        }
+
 tbody {
 	tr {
 		&:hover {
@@ -67,19 +82,7 @@ tbody {
 			}
 		}
 	}
-     .button-container {
-            display: flex;
-            justify-content: space-between;
-            width: 800px;
-        }
-
-        button {
-            background-color: #55608f;
-            color: #fff;
-            padding: 10px;
-            border: none;
-            cursor: pointer;
-        }
+     
 }
 </style>
 
@@ -91,23 +94,26 @@ tbody {
                         <th>Teams</th>
                     </tr>
                 </thead>
-                <tbody>
+               <tbody>
                     {{#each clubs as |club|}}
-                        <tr>
-                            <td>
+                        <tr data-cy='table'>
+                            <td data-cy='random-clubs'>
                                 {{club.dataValues.club_name}}
                             </td>
                         
                             <td>
-                                View, Update, Delete
+                                <a href="/club/{{club.dataValues.id}}" data-cy="view">View</a>,
+                                <a href="/club/{{club.dataValues.id}}/update" data-cy='update'>Update</a>,
+                                <a href="/club/{{club.dataValues.id}}/delete" data-cy='delete'>Delete</a>
                             </td>
                         </tr>
                     {{/each}}
                 </tbody>
+
             </table>
                 <div class="button-container">
-                    <button id="all-clubs-btn">Create your club!</button>
-                    <button id="create-club-btn">All the clubs</button>
+                    <a href="/new-club"><button data-cy='new-club'>Create your club!</button></a>
+                    <a href="/all-clubs"><button data-cy='all-clubs'>All the clubs</button></a>
                 </div>
             </div>
 
