@@ -1,14 +1,113 @@
-<span> Some clubs </span>
+<style>
+    html,
+body {
+	height: 100%;
+}
 
-<ul>
-    {{#each clubs as |club|}}
-        <li> 
-            {{club.club_name}}
-            <a>View</a> 
-            <a>Update</a> 
-            <a>Delete</a>
-        </li>
-    {{/each}}
-</ul>
+body {
+	margin: 0;
+	background: linear-gradient(45deg, #49a09d, #5f2c82);
+	font-family: sans-serif;
+	font-weight: 100;
+    display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+}
 
-<button> Create your club!</button>
+.container {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+table {
+	width: 800px;
+	border-collapse: collapse;
+	overflow: hidden;
+	box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+th,
+td {
+	padding: 15px;
+	background-color: rgba(255,255,255,0.2);
+	color: #fff;
+}
+
+th {
+	text-align: left;
+}
+
+thead {
+	th {
+		background-color: #55608f;
+	}
+}
+
+tbody {
+	tr {
+		&:hover {
+			background-color: rgba(255,255,255,0.3);
+		}
+	}
+	td {
+		position: relative;
+		&:hover {
+			&:before {
+				content: "";
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: -9999px;
+				bottom: -9999px;
+				background-color: rgba(255,255,255,0.2);
+				z-index: -1;
+			}
+		}
+	}
+     .button-container {
+            display: flex;
+            justify-content: space-between;
+            width: 800px;
+        }
+
+        button {
+            background-color: #55608f;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+        }
+}
+</style>
+
+            <div class="container"></div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>Teams</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each clubs as |club|}}
+                        <tr>
+                            <td>
+                                {{club.dataValues.club_name}}
+                            </td>
+                        
+                            <td>
+                                View, Update, Delete
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+                <div class="button-container">
+                    <button id="all-clubs-btn">Create your club!</button>
+                    <button id="create-club-btn">All the clubs</button>
+                </div>
+            </div>
+
