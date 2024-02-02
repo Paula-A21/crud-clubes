@@ -8,15 +8,16 @@ import { dirname } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const server = express();
+const app = express()
 const hbs = create();
 
-server.engine('handlebars', hbs.engine);
-server.set('view engine', 'handlebars');
-server.use(expressStatic(__dirname + '/views'));
-server.set('views', __dirname + '/views');
-server.use(json());
-server.use(cors());
-server.use(router);
+app.engine('handlebars', hbs.engine);
+app.set('view engine', 'handlebars');
+app.use(expressStatic(__dirname + '/views'));
+app.set('views', __dirname + '/views');
+app.use(json());
+app.use(cors());
+app.use(router);
 
-export default server;
+
+export default app;

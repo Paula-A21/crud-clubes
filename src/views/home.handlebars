@@ -40,9 +40,9 @@
                             </td>
                         
                             <td>
-                                <a href="/club/{{club.dataValues.id}}" data-cy="view">View</a>,
-                                <a href="/club/{{club.dataValues.id}}/update" data-cy='update'>Update</a>,
-                                <a href="/club/{{club.dataValues.id}}/delete" data-cy='delete'>Delete</a>
+                                <a href="/clubs/{{club.dataValues.id}}" data-cy="view">View</a>,
+                                <a href="/clubs/{{club.dataValues.id}}" data-cy='update'>Update</a>,
+                                <a href="/clubs/{{club.dataValues.id}}" data-cy='delete'>Delete</a>
                             </td>
                         </tr>
                     {{/each}}
@@ -50,8 +50,9 @@
 
             </table>
                 <div class="button-container">
-                    <a href="/new-club"><button data-cy='new-club'>Create your club!</button></a>
-                    <a href="/all-clubs"><button data-cy='all-clubs'>All the clubs</button></a>
-                </div>
+                    <button data-cy='new-club'>Create your club!</button>
+                    <button>
+                        <a href="/clubs?action=view-all" data-cy='all-clubs'>All the clubs</a>
+                    </button> 
             </div>
 

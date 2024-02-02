@@ -3,32 +3,29 @@ import ClubsModel from '../models/Clubs.js';
 
 const Clubs = ClubsModel(sequelize);
 
-const getAllClubsController = async (req, res) => {
-   
-  const clubs = await Clubs.findAll();
-  if(!clubs) throw new Error('No clubs were found in the database');
-
-  console.log('Entre a getAllClubsController');
+const getClubsController = async (req, res) => {
 
   try {
-    res.status(200).json(clubs)
+    const clubs = await Clubs.findAll();
+    const action = req.query.action; // Obtener el parámetro de consulta 'action'
+    
+    if (!clubs || clubs.length === 0) {
+      return res.status(404).json({ error: 'No clubs were found in the database' });
+    }
+
+    if (action) {
+      if (action === 'view-all') {
+        res.render('all-clubs',{ clubs });
+      }
+    } else {
+
+      const randomClubs = clubs.sort(() => 0.5 - Math.random()).slice(0, 3);
+      res.render('home', { clubs: randomClubs });
+    }
   } catch (error) {
     console.log(error.message);
+    res.status(500).json({ error: 'An error has occurred' });
   }
-
-  // try {
-  //   if (req.path === '/clubs') {
-  //     const randomClubs = clubs.sort(() => 0.5 - Math.random()).slice(0, 3);
-  //     res.render('home', { clubs: randomClubs });
-  //   } else {
-  //       // res.status(200).json(CLUBS);
-  //     res.render('all-clubs', { });
-  //   }
-  // } catch (error) {
-  //   if(!clubs) res.status(404).json({ error: error.message });
-        
-  //   res.status(500).json('An error has occurred' + error.message)
-
 };
 
 const deleteClubController = async (req, res) => {
@@ -79,7 +76,7 @@ const updateClubController = async (req, res) => {
 }
 
 export {
-  getAllClubsController,
+  getClubsController,
   deleteClubController,
   detailClubController,
   createClubController,
