@@ -1,7 +1,11 @@
 {
+  "name": "crud-clubs",
+  "lockfileVersion": 3,
+  "requires": true,
+  "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "server": "nodemon index.js",
+    "start": "node index.mjs",
+    "server": "nodemon index.mjs",
     "cypress-run": "cypress run",
     "cypress-dev": "cypress open"
   },

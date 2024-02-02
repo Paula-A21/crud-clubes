@@ -1,7 +1,7 @@
 describe('Home page', () => {
   it('All buttons redirect correctly', () => {
    
-    cy.visit('/home');
+    cy.visit('/clubs');
     
     cy.get('[data-cy="random-clubs"]').should('have.length', 3);
 
@@ -11,7 +11,7 @@ describe('Home page', () => {
       actions.forEach((action) => {
         // const clubId = club.find('`[data-cy="${action}`').attr('href').split('/').pop();
         cy.get(`[data-cy="${action}"]:eq(${index})`).click();
-        cy.url().should('include', `/club/`);
+        cy.url().should('include', `/clubs/`);
         cy.go('back');
       });
    
@@ -19,11 +19,11 @@ describe('Home page', () => {
 });
 
   cy.get('[data-cy="new-club"]').click();
-  cy.url().should('include', '/new-club');
+  cy.url().should('include', '/clubs');
   cy.go('back');
 
   cy.get('[data-cy="all-clubs"]').click();
-  cy.url().should('include', '/all-clubs');
+  cy.url().should('include', '/clubs');
   });
 });
 
