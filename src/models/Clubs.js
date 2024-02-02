@@ -1,29 +1,32 @@
-const { DataTypes } = require("sequelize");
+import sequelize from '../models/db.js';
+import { DataTypes } from 'sequelize';
 
-module.exports = (sequelize) => { 
-    sequelize.define("Clubs", {
+export default () => { 
+    const Clubs = sequelize.define("Clubs", {
         id_UUID: { 
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true,
         },
-        id:{
+        id: {
             type: DataTypes.INTEGER
         },
-        club_name:{ 
+        club_name: { 
             type: DataTypes.STRING, 
             allowNull: false
         },
-        club_adress:{ 
+        club_adress: { 
             type: DataTypes.STRING, 
             allowNull: false
         },
-        club_foundation_year:{ 
+        club_foundation_year: { 
             type: DataTypes.INTEGER,  
             allowNull: false
         }
     },
     {
-        timestamps:false
-    })
-}
+        timestamps: false
+    });
+
+    return Clubs;
+};

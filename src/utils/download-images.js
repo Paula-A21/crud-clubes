@@ -1,14 +1,22 @@
-require("dotenv").config();
-const axios = require('axios');
-const fs = require('fs');
+import { config } from "dotenv";
+import axios from 'axios';
+import { writeFileSync } from 'fs';
+import { join } from 'path';
+import { log } from "console";
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const { API_TOKEN } = process.env;
-const path = require('path');
+ 
+config();
 
 const saveImageLocally = async (url, fileName, saveDirectory) => {
   try {
     const response = await axios.get(url, { responseType: 'arraybuffer' });
-    const filePath = path.join(saveDirectory, fileName);
-    fs.writeFileSync(filePath, Buffer.from(response.data, 'binary'));
+    const filePath = join(saveDirectory, fileName);
+    writeFileSync(filePath, Buffer.from(response.data, 'binary'));
   } catch (error) {
     console.error(`Error while downloading ${fileName}: ${error.message}`);
   }
@@ -17,11 +25,11 @@ const saveImageLocally = async (url, fileName, saveDirectory) => {
 const downloadImages = async () => {
   try {
 
-    const saveDirectory = '../images/crests'
+    const saveDirectory = join(__dirname, '../images/crests');
 
     const response = await axios.get('https://api.football-data.org/v4/teams', {
       headers: {
-        'X-Auth-Token': '2cba144727404798acb1f39490a5cf20'
+        'X-Auth-Token': API_TOKEN
       },
     });
     
@@ -42,6 +50,4 @@ const downloadImages = async () => {
   }
 };
 
-module.exports = {
-  downloadImages
-};
+export { downloadImages };

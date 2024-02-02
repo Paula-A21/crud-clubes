@@ -1,17 +1,22 @@
-const express = require("express");
-const cors = require("cors");
-const exphbs = require("express-handlebars");
-const router = require("./routes/routes");
+import express, { static as expressStatic, json } from "express";
+import cors from "cors";
+import { create } from "express-handlebars";
+import router from "./routes/routes.js";
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const server = express();
-const hbs = exphbs.create();
+const hbs = create();
 
 server.engine('handlebars', hbs.engine);
 server.set('view engine', 'handlebars');
-server.use(express.static(__dirname + '/views'));
+server.use(expressStatic(__dirname + '/views'));
 server.set('views', __dirname + '/views');
-server.use(express.json());
+server.use(json());
 server.use(cors());
 server.use(router);
 
-module.exports = server;
+export default server;

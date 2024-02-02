@@ -1,17 +1,17 @@
-const { Router } = require("express");
+import { Router } from "express";
 const router = Router();
 
-const { getAllClubsHandler } = require("../handlers/get-clubs-handlers");
-const { deleteClubHandler } = require("../handlers/delete-clubs-handlers");
-const { updateClubHandler } = require("../handlers/put-clubs-handlers");
-const {createClubHandler} = require("../handlers/post-clubs-handlers");
-const { detailClubHandler } = require("../handlers/detail-club-handlers");
+import { getAllClubsController } from "../controllers/clubs-controllers.js";
+import { deleteClubController } from "../controllers/clubs-controllers.js";
+import { updateClubController } from "../controllers/clubs-controllers.js";
+import { createClubController } from "../controllers/clubs-controllers.js";
+import { detailClubController } from "../controllers/clubs-controllers.js";
 
-router.get('/all-clubs', getAllClubsHandler);
-router.get('/home', getAllClubsHandler);
-router.get('/club/:club_id', detailClubHandler);
-router.post('/new-club', createClubHandler);
-router.delete('/club/:club_id', deleteClubHandler);
-router.put('/club/:club_id', updateClubHandler);
 
-module.exports = router;
+router.get('/clubs', getAllClubsController);
+router.get('/clubs/:id_UUID', detailClubController);
+router.post('/clubs', createClubController);
+router.delete('/clubs/:id_UUID', deleteClubController);
+router.put('/clubs/:id_UUID', updateClubController);
+
+export default router;
