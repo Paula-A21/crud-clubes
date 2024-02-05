@@ -13,7 +13,8 @@ const hbs = create();
 
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
-app.use(expressStatic(__dirname + '/views'));
+app.use('/images/crests', expressStatic(__dirname + '/images/crests'));
+console.log(__dirname + '/images/crests');
 app.set('views', __dirname + '/views');
 app.use(json());
 app.use(cors());
