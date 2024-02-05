@@ -1,1 +1,48 @@
-<span>Este es el detail</span>
+<style>
+    .detailContainer {
+        max-width: 500%;
+        margin: 30px auto;
+        padding: 20px;
+        background:none;
+        backdrop-filter: blur (50px);
+        border-radius: 10px;
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+        background-color: rgba(255, 255, 255, 0.5);
+        color: black;
+    }
+
+    .detail{
+        font-family: 'Garamond'; 
+        padding: 0.5rem;
+        font-size: 2.5rem;
+        border-radius: 5px;
+        border: 5px solid #ccc;
+        color: black;
+        display: flex;
+        justify-content: space-between;
+        margin-top: 21px;
+    }
+
+</style>
+
+<form class="detailContainer">
+    <div class="detail">
+        Club name:
+        {{club_detail.dataValues.club_name}}
+    </div>
+    <div class="detail">
+        Club adress:
+        {{club_detail.dataValues.club_adress}}
+    </div>
+    <div class="detail">
+        Club foundation year:
+        {{club_detail.dataValues.club_foundation_year}}
+    </div>
+    <div>
+        {{!-- <img src="../images/crests/{{club_detail.dataValues.club_name.replace(/[^\w]/gi, '').toLowerCase()}}.png" alt="{{club_detail.dataValues.club_name}} Emblem"> --}}
+    </div>
+</form>
+<div class="button-container">
+    <button>✏️</button>
+    <button>🗑️</button>
+</div>

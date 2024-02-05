@@ -40,12 +40,21 @@ const deleteClubController = async (req, res) => {
 
 const detailClubController = async (req, res) => {
 
-  try {
-      res.render('detail-club', { });
-  } catch (error) {
-      console.log(error);
-  }
+  const { id_UUID } = req.params;
+  console.log('id ' + id_UUID);
+  const club_detail = await Clubs.findByPk(id_UUID);
+  console.log('club detail ' + club_detail);
 
+  if (!club_detail) {
+    return res.status(404).json({ error: 'The club was not found' });
+  }
+  
+  try {
+    res.render('detail-club', { club_detail });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ error: 'An error has occurred' });
+  }
 }
 
 const createClubController = async (req, res) => {
