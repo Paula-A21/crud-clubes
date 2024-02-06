@@ -8,17 +8,15 @@ import { dirname } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const app = express()
+const app = express();
 const hbs = create();
 
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.use('/images/crests', expressStatic(__dirname + '/images/crests'));
-console.log(__dirname + '/images/crests');
 app.set('views', __dirname + '/views');
 app.use(json());
 app.use(cors());
 app.use(router);
-
 
 export default app;

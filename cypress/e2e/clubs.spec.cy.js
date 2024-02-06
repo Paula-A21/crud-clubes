@@ -3,14 +3,14 @@ describe('Home page', () => {
    
     cy.visit('/clubs');
     
-    cy.get('[data-cy="random-clubs"]').should('have.length', 3);
+    cy.get('[data-cy="random-clubs-home"]').should('have.length', 3);
 
     const actions = ['view', 'update', 'delete'];
 
-    cy.get('[data-cy="table"]').find('[data-cy="random-clubs"]').each((club, index) => {
+    cy.get('[data-cy="table"]').find('[data-cy="random-clubs-home"]').each((club, index) => {
       actions.forEach((action) => {
-        // const clubId = club.find('`[data-cy="${action}`').attr('href').split('/').pop();
-        cy.get(`[data-cy="${action}"]:eq(${index})`).click();
+
+        cy.get(`[data-cy="${action}-button"]:eq(${index})`).click();
         cy.url().should('include', `/clubs/`);
         cy.go('back');
       });
@@ -18,11 +18,11 @@ describe('Home page', () => {
     
 });
 
-  cy.get('[data-cy="new-club"]').click();
+  cy.get('[data-cy="create-new-club-button"]').click();
   cy.url().should('include', '/clubs');
   cy.go('back');
 
-  cy.get('[data-cy="all-clubs"]').click();
+  cy.get('[data-cy="view-all-clubs"]').click();
   cy.url().should('include', '/clubs');
   });
 });

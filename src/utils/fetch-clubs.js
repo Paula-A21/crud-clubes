@@ -33,7 +33,7 @@ const fetchClubs = async () => {
           id: club.id,
           club_name: club.shortName,
           club_adress: club.address,
-          club_foundation_year:club.founded,
+          club_foundation_year:club.founded
         });
   
         return CREATE_CLUB;

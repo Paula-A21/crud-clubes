@@ -1,1 +1,60 @@
-<span> Esta es la vista de todos los clubes</span>
+<style>
+    #clubs-table {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    #clubs-table td,
+    #clubs-table th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    #clubs-table tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    #clubs-table tr:hover {
+        background-color: #ddd;
+    }
+
+    #clubs-table th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #04AA6D;
+        color: white;
+    }
+
+    .club-crests-detail-image {
+        margin-top: 10px;
+        text-align: center;
+        width: 50px;
+        height: 50px;
+    }
+</style>
+
+<h1>Club information</h1>
+
+<table id="clubs-table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Year</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each clubs as |club|}}
+        <tr>
+            <td>
+                {{club.club_name}}
+                <img src="{{club.imagePath}}" alt="{{club.club_name}} Emblem"  class="club-crests-detail-image">
+            </td>
+            <td>{{club.club_adress}}</td>
+            <td>{{club.club_foundation_year}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
