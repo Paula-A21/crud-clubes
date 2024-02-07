@@ -1,8 +1,7 @@
 <style>
-    .popUp-deleted-club-container {
+    .delete-club-popUp {
         max-width: 300%;
         position: absolute;
-        display: none;
         top: 35%;
         left: 50%;
         transform: translate(-50%, -50%);
@@ -14,7 +13,7 @@
         color: black;
     }
 
-    .title-popUp-deleted {
+    .title-popUp-delete {
         font-family: 'Garamond';
         padding: 0.5rem;
         font-size: 2.3rem;
@@ -23,32 +22,32 @@
         margin-bottom: 5px;
     }
 
-    .corfirm-button {
+    .corfirm-or-deny-delete-buttons {
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: center;
         margin-top: 10px;
     }
+
 </style>
 
-<div id="deletePopUp" class="popUp-deleted-club-container">
-    <p class="title-popUp-deleted">Club deleted</p>
-    <div class="corfirm-button">
-        <button id="confirmDelete">
-            <href="#" data-cy='confirm-delete-club-button'>
-                Ok
-            </href>
+<div class="delete-club-popUp">
+    <p class="title-popUp-delete">Club deleted</p>
+    <div class="corfirm-or-deny-buttons">
+        <button id="acept-delete-complete">
+            Ok
         </button>
     </div>
 </div>
 
 <script>
-    document.getElementById('deleteButton').addEventListener('click', function () {
-        document.getElementById('deletePopUp').style.display = 'flex';
-    });
 
-    document.getElementById('confirmDelete').addEventListener('click', function () {
+ document.addEventListener('DOMContentLoaded', function () {
+    
+   document.getElementById('acept-delete-complete').addEventListener('click', function () {
         window.location.href = "/clubs";
     });
+});
+
 </script>

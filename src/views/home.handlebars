@@ -24,39 +24,40 @@
         }
 
     }
-        .popUp-delete-club-container {
-            max-width: 300%;
-            margin-top: 80px;
-            position: absolute;
-            display: none;
-            top: 35%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 2;
-            background: none;
-            backdrop-filter: blur(50px);
-            border-radius: 10px;
-            background-color: rgb(43, 21, 97);
-            color: black;
-        }
+       #delete-club-popUp {
+        max-width: 300%;
+        position: absolute;
+        display: none;
+        top: 35%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        background: none;
+        backdrop-filter: blur (50px);
+        border-radius: 10px;
+        background-color: rgb(255, 255, 255);
+        color: black;
+    }
 
-        .title-popUp-delete {
-            font-family: 'Garamond';
-            padding: 0.5rem;
-            font-size: 2.3rem;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            margin-bottom: 5px;
-        }
+    .title-popUp-delete {
+        font-family: 'Garamond';
+        padding: 0.5rem;
+        font-size: 2.3rem;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        margin-bottom: 5px;
+    }
 
-        .corfirm-or-deny-buttons {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            margin-top: 10px;
-        }
+    .corfirm-or-deny-delete-buttons {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
 </style>
+
 <table>
     <thead>
         <tr>
@@ -74,7 +75,7 @@
             <td>
                 <a href="/clubs/{{club.dataValues.id_UUID}}?action=view-club" data-cy="view-club-button">View</a>,
                 <a href="/clubs/{{club.dataValues.id_UUID}}?action=update-club" data-cy='update-club-button'>Update</a>,
-                <a href="#" data-cy='delete-club-button' class="deleteButton">Delete</a>
+                <a href="#" id="delete-href">Delete</a>
 
             </td>
         </tr>
@@ -89,32 +90,30 @@
     </button>
 </div>
 
-<div id="deletePopUp" class="popUp-delete-club-container">
+<div id="delete-club-popUp">
     <p class="title-popUp-delete">Are you sure you want to delete this club?</p>
-    <div class="corfirm-or-deny-buttons">
-        <button id="confirmDelete">Yes</button>
-        <button id="cancelDelete">No</button>
+    <div class="corfirm-or-deny-delete-buttons">
+        <button id="confirm-delete">Yes</button>
+        <button id="cancel-delete">No</button>
     </div>
 </div>
 
 <script>
-
-    let deleteButtons = document.getElementsByClassName('deleteButton');
+    let deleteHrefs = document.querySelectorAll('#delete-href');
 
     // Hay que hacer un ciclo para ver todos los botones de delete que se
-    //muestran en home
-    for (let i = 0; i < deleteButtons.length; i++) {
-        deleteButtons[i].addEventListener('click', function () {
-            document.getElementById('deletePopUp').style.display = 'flex';
+    // muestran en home
+    for (let i = 0; i < deleteHrefs.length; i++) {
+        deleteHrefs[i].addEventListener('click', function () {
+            document.getElementById('delete-club-popUp').style.display = 'flex';
         });
     }
 
-    document.getElementById('cancelDelete').addEventListener('click', function () {
-        document.getElementById('deletePopUp').style.display = 'none';
+    document.getElementById('cancel-delete').addEventListener('click', function () {
+        document.getElementById('delete-club-popUp').style.display = 'none';
     });
 
-    document.getElementById('confirmDelete').addEventListener('click', function () {
+    document.getElementById('confirm-delete').addEventListener('click', function () {
         window.location.href = "/clubs?action=delete";
     });
-
 </script>

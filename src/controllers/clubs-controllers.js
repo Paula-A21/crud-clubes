@@ -61,7 +61,7 @@ const crudClubs = async (req, res) => {
           if (deleted_club_count > 0) {
             // El club se eliminó correctamente
   
-            return res.render("delete-club", {});
+            return res.render("delete-club");
   
           } else {
             // No se encontró el club para eliminar
