@@ -1,17 +1,22 @@
-const express = require("express");
-const cors = require("cors");
-// const multer = require("multer");
-const exphbs = require("express-handlebars");
+import express, { static as expressStatic, json } from "express";
+import cors from "cors";
+import { create } from "express-handlebars";
+import router from "./routes/routes.js";
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
-// const multer = multer({dest: './images/emblems'});
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-const server = express();
-const hbs = exphbs.create();
+const app = express();
+const hbs = create();
 
-server.engine('handlebars', hbs.engine);
-server.set('view engine', 'handlebars');
-server.use(express.json());
-server.use(cors());
+app.engine('handlebars', hbs.engine);
+app.set('view engine', 'handlebars');
+app.use('/images/crests', expressStatic(__dirname + '/images/crests'));
+app.set('views', __dirname + '/views');
+app.use(json());
+app.use(cors());
+app.use(router);
 
-
-module.exports = server;
+export default app;

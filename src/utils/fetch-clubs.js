@@ -1,5 +1,11 @@
-const { Clubs } = require("../db");
-const axios = require("axios");
+import { config } from "dotenv";
+import sequelize from '../models/db.js';
+import ClubsModel from '../models/Clubs.js';
+config();
+
+const Clubs = ClubsModel(sequelize);
+import axios from 'axios';
+import { downloadImages } from "./download-images.js";
 const URL = "https://api.football-data.org/v4/teams";
 
 const fetchClubs = async () => {
@@ -11,35 +17,36 @@ const fetchClubs = async () => {
       return;
     }
 
+    downloadImages(); //si no existen clubs, se descargan las imagenes de los emblemas localmente
+
     const {data} = await axios.get(`${URL}`, {
       headers: {
-        'X-Auth-Token': '2cba144727404798acb1f39490a5cf20'
+        'X-Auth-Token': process.env.API_TOKEN
       }
     });
 
     const {teams} = data;
 
-    const NEW_CLUB = Promise.all(
+    const new_club = await Promise.all(
       teams.map((club) => {
-        console.log(club);
         const CREATE_CLUB = Clubs.create({
           id: club.id,
           club_name: club.shortName,
           club_adress: club.address,
-          club_foundation_year:club.founded,
+          club_foundation_year:club.founded
         });
   
         return CREATE_CLUB;
       })
     );
-    console.log(NEW_CLUB)
-    return NEW_CLUB;
+    
+    return new_club;
 
   } catch (error) {
     throw new Error("There has been an error getting the clubs" + error.message);
   }
 };
 
-module.exports = {
+export default {
   fetchClubs
 };

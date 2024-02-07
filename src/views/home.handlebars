@@ -1,0 +1,59 @@
+<style>
+    tbody {
+        tr {
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.3);
+            }
+        }
+
+        td {
+            position: relative;
+
+            &:hover {
+                &:before {
+                    content: "";
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    top: -9999px;
+                    bottom: -9999px;
+                    background-color: rgba(255, 255, 255, 0.2);
+                    z-index: -1;
+                }
+            }
+        }
+
+    }
+</style>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Action</th>
+            <th>Teams</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each clubs as |club|}}
+        <tr data-cy='table'>
+            <td data-cy='random-clubs-home'>
+                {{club.dataValues.club_name}}
+            </td>
+
+            <td>
+                <a href="/clubs/{{club.dataValues.id_UUID}}?action=view-club" data-cy="view-club-button">View</a>,
+                <a href="/clubs/{{club.dataValues.id_UUID}}?action=update-club" data-cy='update-club-button'>Update</a>,
+                <a href="/clubs/{{club.dataValues.id_UUID}}?action=delete-club" data-cy='delete-club-button'>Delete</a>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+
+</table>
+<div class="button-container">
+    <button data-cy='create-new-club-button'>Create your club!</button>
+    <button>
+        <a href="/clubs?action=view-all-clubs"" data-cy='view-all-clubs'>All the clubs</a>
+    </button>
+</div>

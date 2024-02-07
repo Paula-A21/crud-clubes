@@ -1,0 +1,122 @@
+<style>
+    .detail-container-club {
+        max-width: 500%;
+        margin: 30px auto;
+        padding: 20px;
+        background: none;
+        backdrop-filter: blur (50px);
+        border-radius: 10px;
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+        background-color: rgba(255, 255, 255, 0.5);
+        color: black;
+    }
+
+    .detail-club-content {
+        font-family: 'Garamond';
+        padding: 0.5rem;
+        font-size: 2rem;
+        border-radius: 5px;
+        border: 5px solid #ccc;
+        color: black;
+        display: flex;
+        justify-content: space-between;
+        margin-top: 21px;
+    }
+
+    .popUp-delete-club-container {
+        max-width: 300%;
+        position: absolute;
+        display: none;
+        top: 35%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        background: none;
+        backdrop-filter: blur (50px);
+        border-radius: 10px;
+        background-color: rgb(255, 255, 255);
+        color: black;
+    }
+
+    .title-popUp-delete {
+        font-family: 'Garamond';
+        padding: 0.5rem;
+        font-size: 2.3rem;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        margin-bottom: 5px;
+    }
+
+    .corfirm-or-deny-buttons {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    .club-crests-detail-image {
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    .club-crests-detail-image img {
+        width: 200px;
+        height: 200px;
+    }
+</style>
+
+<form class="detail-container-club">
+    <div class="detail-club-content">
+        Club name:
+        {{club_detail.dataValues.club_name}}
+    </div>
+    <div class="detail-club-content">
+        Club adress:
+        {{club_detail.dataValues.club_adress}}
+    </div>
+    <div class="detail-club-content">
+        Club foundation year:
+        {{club_detail.dataValues.club_foundation_year}}
+    </div>
+    <div class="club-crests-detail-image">
+        <img src="{{imagePath}}" alt="{{club_detail.dataValues.club_name}} Emblem">
+    </div>
+</form>
+<div class="button-container">
+    <button>
+        <a href="/clubs?action=edit" data-cy='edit-club-button'>
+            ✏️
+        </a>
+    </button>
+    <button id="deleteButton">
+        <a href="#" data-cy='delete-club-button'>
+            🗑️
+        </a>
+    </button>
+</div>
+
+<div id="deletePopUp" class="popUp-delete-club-container">
+    <p class="title-popUp-delete">Are you sure you want to delete this club?</p>
+    <div class="corfirm-or-deny-buttons">
+        <button id="confirmDelete">Yes</button>
+        <button id="cancelDelete">No</button>
+    </div>
+</div>
+
+<script>
+    document.getElementById('deleteButton').addEventListener('click', function () {
+        document.getElementById('deletePopUp').style.display = 'flex';
+    });
+
+    document.getElementById('cancelDelete').addEventListener('click', function () {
+        document.getElementById('deletePopUp').style.display = 'none';
+    });
+
+    document.getElementById('confirmDelete').addEventListener('click', function () {
+        window.location.href = "/clubs?action=delete";
+
+        // Después de borrar el club redirigir a la pagina de inicio
+        // window.location.href = "/clubs";
+    });
+</script>
