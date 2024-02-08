@@ -1,14 +1,13 @@
 import { Router } from "express";
 const router = Router();
 
-import { crudClubs } from "../controllers/clubs-controllers.js";
+import ClubController from "../controllers/ClubController.js";
+const clubController = new ClubController();
 
-
-
-router.get('/clubs', crudClubs);
-router.get('/clubs/:id_UUID', crudClubs);
-router.post('/clubs', crudClubs);
-router.delete('/clubs/:id_UUID', crudClubs);
-router.put('/clubs/:id_UUID', crudClubs);
+router.get('/clubs', clubController.getClubsHome.bind(clubController));
+router.get('/clubs/:id', clubController.getClubDetail.bind(clubController));
+router.post('/clubs', clubController.createClub.bind(clubController));
+router.delete('/clubs/:id', clubController.deleteClub.bind(clubController));
+router.put('/clubs/:id', clubController.updateClub.bind(clubController));
 
 export default router;

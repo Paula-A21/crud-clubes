@@ -24,7 +24,8 @@
         }
 
     }
-       #delete-club-popUp {
+
+    #delete-club-popUp {
         max-width: 300%;
         position: absolute;
         display: none;
@@ -55,7 +56,6 @@
         justify-content: center;
         margin-top: 10px;
     }
-
 </style>
 
 <table>
@@ -66,35 +66,34 @@
         </tr>
     </thead>
     <tbody>
-        {{#each clubs as |club|}}
-        <tr data-cy='table'>
-            <td data-cy='random-clubs-home'>
-                {{club.dataValues.club_name}}
-            </td>
+        {{#each random_clubs as |club|}}
+            <tr>
+                <td>
+                    {{club.dataValues.club_name}}
+                </td>
 
-            <td>
-                <a href="/clubs/{{club.dataValues.id_UUID}}?action=view-club" data-cy="view-club-button">View</a>,
-                <a href="/clubs/{{club.dataValues.id_UUID}}?action=update-club" data-cy='update-club-button'>Update</a>,
-                <a href="#" id="delete-href">Delete</a>
-
-            </td>
-        </tr>
+                <td>
+                    <a href="/clubs/{{club.dataValues.id}}" data-cy="view-club-href-home">View</a>,
+                    <a href="/clubs/{{club.dataValues.id}}" data-cy='update-club-href-home'>Update</a>,
+                    <a href="#" class="delete-club" data-club-id="{{club.dataValues.id}}"  data-cy='delete-club-href-home'>Delete</a>
+                </td>
+            </tr>
         {{/each}}
     </tbody>
 </table>
 
 <div class="button-container">
-    <button data-cy='create-new-club-button'>Create your club!</button>
+    <button data-cy='create-new-club-button-home'>Create your club!</button>
     <button>
-        <a href="/clubs?action=view-all-clubs" data-cy='view-all-clubs'>All the clubs</a>
+        <a href="/clubs?action=all-clubs" data-cy='view-all-clubs-button-home'>All the clubs</a>
     </button>
 </div>
 
 <div id="delete-club-popUp">
-    <p class="title-popUp-delete">Are you sure you want to delete this club?</p>
+    <p class="title-popUp-delete" data-cy='delete-club-question-home'>Are you sure you want to delete this club?</p>
     <div class="corfirm-or-deny-delete-buttons">
-        <button id="confirm-delete">Yes</button>
-        <button id="cancel-delete">No</button>
+        <button id="confirm-delete" data-cy='confirm-delete-button-home'>Yes</button>
+        <button id="cancel-delete" data-cy='cancel-delete-button-home'>No</button>
     </div>
 </div>
 
@@ -113,7 +112,37 @@
         document.getElementById('delete-club-popUp').style.display = 'none';
     });
 
-    document.getElementById('confirm-delete').addEventListener('click', function () {
-        window.location.href = "/clubs?action=delete";
-    });
+    let deleteButtons = document.querySelectorAll('.delete-club');
+    let clubId;
+
+    for (let i = 0; i < deleteButtons.length; i++) {
+        deleteButtons[i].addEventListener('click', function (event) {
+            event.preventDefault();
+
+            clubId = this.getAttribute('data-club-id');
+
+            document.getElementById('delete-club-popUp').style.display = 'flex';
+
+        });
+    }
+    
+    document.getElementById('confirm-delete').addEventListener('click', async function () {
+
+        try {
+
+            const response = await fetch(`/clubs/${clubId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if(response.ok) window.location.href = "/clubs";
+            
+        }
+        catch (error) {
+            console.log(error.message);
+        }
+    })
+
 </script>

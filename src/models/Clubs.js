@@ -13,6 +13,7 @@ export default () => {
         },
         club_name: { 
             type: DataTypes.STRING, 
+            unique: true,
             allowNull: false
         },
         club_adress: { 
@@ -28,5 +29,5 @@ export default () => {
         timestamps: false
     });
 
-    return Clubs;
+    return Clubs
 };

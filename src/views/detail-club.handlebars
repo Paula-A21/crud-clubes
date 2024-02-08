@@ -1,5 +1,4 @@
 <style>
-
     .detail-container-club {
         max-width: 500%;
         margin: 30px auto;
@@ -65,37 +64,38 @@
         width: 200px;
         height: 200px;
     }
-
 </style>
 
 <form class="detail-container-club">
     <div class="detail-club-content">
         Club name:
-        {{club_detail.dataValues.club_name}}
+        {{club.dataValues.club_name}}
     </div>
     <div class="detail-club-content">
         Club adress:
-        {{club_detail.dataValues.club_adress}}
+        {{club.dataValues.club_adress}}
     </div>
     <div class="detail-club-content">
         Club foundation year:
-        {{club_detail.dataValues.club_foundation_year}}
+        {{club.dataValues.club_foundation_year}}
     </div>
     <div class="club-crests-detail-image">
-        <img src="{{imagePath}}" alt="{{club_detail.dataValues.club_name}} Emblem">
+        <img src="{{imagePathDetail}}" alt="{{club.dataValues.club_name}} Emblem">
     </div>
 </form>
 <div class="button-container">
     <button>
-        <a href="/clubs?action=edit" data-cy='edit-club-button'>
+        <a href="/clubs" data-cy='edit-club-button-detail'>
             ✏️
         </a>
     </button>
-    <button id="delete-button">
-        <a href="#" data-cy='delete-club-button'>
-            🗑️
-        </a>
-    </button>
+    
+        <button id="delete-button">
+            <a href="#" class="delete-club" data-club-id="{{clubDetail.dataValues.id}}" data-cy='edit-club-button-delete'>
+                🗑️
+            </a>
+        </button>
+  
 </div>
 
 <div id="delete-club-popUp">
@@ -107,15 +107,39 @@
 </div>
 
 <script>
-    document.getElementById('delete-button').addEventListener('click', function () {
-        document.getElementById('delete-club-popUp').style.display = 'flex';
-    });
 
     document.getElementById('cancel-delete').addEventListener('click', function () {
         document.getElementById('delete-club-popUp').style.display = 'none';
     });
 
-    document.getElementById('confirm-delete').addEventListener('click', function () {
-        window.location.href = "/clubs?action=delete";
-    });
+    document.getElementById('delete-button').addEventListener('click', function (event) {
+        
+        document.getElementById('delete-club-popUp').style.display = 'flex';
+        
+        document.getElementById('confirm-delete').addEventListener('click', async function () {
+
+            const clubId = event.target.getAttribute('data-club-id');
+
+
+            // Utiliza event.target para obtener el elemento en el que se hizo clic
+
+
+            try {
+
+
+                const response = await fetch(`/clubs/${clubId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (response.ok) window.location.href = "/clubs";
+
+            }
+            catch (error) {
+                console.log(error.message);
+            }
+        })
+    })
 </script>
