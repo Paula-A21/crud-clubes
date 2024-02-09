@@ -1,1 +1,53 @@
-<span> Esta es la vista del delete</span>
+<style>
+    .delete-club-popUp {
+        max-width: 300%;
+        position: absolute;
+        top: 35%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        background: none;
+        backdrop-filter: blur (50px);
+        border-radius: 10px;
+        background-color: rgb(255, 255, 255);
+        color: black;
+    }
+
+    .title-popUp-delete {
+        font-family: 'Garamond';
+        padding: 0.5rem;
+        font-size: 2.3rem;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        margin-bottom: 5px;
+    }
+
+    .corfirm-or-deny-delete-buttons {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+</style>
+
+<div class="delete-club-popUp">
+    <p class="title-popUp-delete">Club deleted</p>
+    <div class="corfirm-or-deny-buttons">
+        <button id="acept-delete-complete">
+            Ok
+        </button>
+    </div>
+</div>
+
+<script>
+
+ document.addEventListener('DOMContentLoaded', function () {
+    
+   document.getElementById('acept-delete-complete').addEventListener('click', function () {
+        window.location.href = "/clubs";
+    });
+});
+
+</script>

@@ -24,8 +24,39 @@
         }
 
     }
-</style>
 
+    #delete-club-popUp {
+        max-width: 300%;
+        position: absolute;
+        display: none;
+        top: 35%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        background: none;
+        backdrop-filter: blur (50px);
+        border-radius: 10px;
+        background-color: rgb(255, 255, 255);
+        color: black;
+    }
+
+    .title-popUp-delete {
+        font-family: 'Garamond';
+        padding: 0.5rem;
+        font-size: 2.3rem;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        margin-bottom: 5px;
+    }
+
+    .corfirm-or-deny-delete-buttons {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin-top: 10px;
+    }
+</style>
 
 <table>
     <thead>
@@ -35,25 +66,83 @@
         </tr>
     </thead>
     <tbody>
-        {{#each clubs as |club|}}
-        <tr data-cy='table'>
-            <td data-cy='random-clubs-home'>
-                {{club.dataValues.club_name}}
-            </td>
+        {{#each random_clubs as |club|}}
+            <tr>
+                <td>
+                    {{club.dataValues.club_name}}
+                </td>
 
-            <td>
-                <a href="/clubs/{{club.dataValues.id_UUID}}?action=view-club" data-cy="view-club-button">View</a>,
-                <a href="/clubs/{{club.dataValues.id_UUID}}?action=update-club" data-cy='update-club-button'>Update</a>,
-                <a href="/clubs/{{club.dataValues.id_UUID}}?action=delete-club" data-cy='delete-club-button'>Delete</a>
-            </td>
-        </tr>
+                <td>
+                    <a href="/clubs/{{club.dataValues.id}}" data-cy="view-club-href-home">View</a>,
+                    <a href="/clubs/{{club.dataValues.id}}" data-cy='update-club-href-home'>Update</a>,
+                    <a href="#" class="delete-club" data-club-id="{{club.dataValues.id}}"  data-cy='delete-club-href-home'>Delete</a>
+                </td>
+            </tr>
         {{/each}}
     </tbody>
-
 </table>
+
 <div class="button-container">
-    <button data-cy='create-new-club-button'>Create your club!</button>
+    <button data-cy='create-new-club-button-home'>Create your club!</button>
     <button>
-        <a href="/clubs?action=view-all-clubs"" data-cy='view-all-clubs'>All the clubs</a>
+        <a href="/clubs?action=all-clubs" data-cy='view-all-clubs-button-home'>All the clubs</a>
     </button>
 </div>
+
+<div id="delete-club-popUp">
+    <p class="title-popUp-delete" data-cy='delete-club-question-home'>Are you sure you want to delete this club?</p>
+    <div class="corfirm-or-deny-delete-buttons">
+        <button id="confirm-delete" data-cy='confirm-delete-button-home'>Yes</button>
+        <button id="cancel-delete" data-cy='cancel-delete-button-home'>No</button>
+    </div>
+</div>
+
+<script>
+    let deleteHrefs = document.querySelectorAll('#delete-href');
+
+    // Hay que hacer un ciclo para ver todos los botones de delete que se
+    // muestran en home
+    for (let i = 0; i < deleteHrefs.length; i++) {
+        deleteHrefs[i].addEventListener('click', function () {
+            document.getElementById('delete-club-popUp').style.display = 'flex';
+        });
+    }
+
+    document.getElementById('cancel-delete').addEventListener('click', function () {
+        document.getElementById('delete-club-popUp').style.display = 'none';
+    });
+
+    let deleteButtons = document.querySelectorAll('.delete-club');
+    let clubId;
+
+    for (let i = 0; i < deleteButtons.length; i++) {
+        deleteButtons[i].addEventListener('click', function (event) {
+            event.preventDefault();
+
+            clubId = this.getAttribute('data-club-id');
+
+            document.getElementById('delete-club-popUp').style.display = 'flex';
+
+        });
+    }
+    
+    document.getElementById('confirm-delete').addEventListener('click', async function () {
+
+        try {
+
+            const response = await fetch(`/clubs/${clubId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if(response.ok) window.location.href = "/clubs";
+            
+        }
+        catch (error) {
+            console.log(error.message);
+        }
+    })
+
+</script>

@@ -23,7 +23,7 @@
         margin-top: 21px;
     }
 
-    .popUp-delete-club-container {
+    #delete-club-popUp {
         max-width: 300%;
         position: absolute;
         display: none;
@@ -47,7 +47,7 @@
         margin-bottom: 5px;
     }
 
-    .corfirm-or-deny-buttons {
+    .corfirm-or-deny-delete-buttons {
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -69,54 +69,77 @@
 <form class="detail-container-club">
     <div class="detail-club-content">
         Club name:
-        {{club_detail.dataValues.club_name}}
+        {{club.dataValues.club_name}}
     </div>
     <div class="detail-club-content">
         Club adress:
-        {{club_detail.dataValues.club_adress}}
+        {{club.dataValues.club_adress}}
     </div>
     <div class="detail-club-content">
         Club foundation year:
-        {{club_detail.dataValues.club_foundation_year}}
+        {{club.dataValues.club_foundation_year}}
     </div>
     <div class="club-crests-detail-image">
-        <img src="{{imagePath}}" alt="{{club_detail.dataValues.club_name}} Emblem">
+        <img src="{{imagePathDetail}}" alt="{{club.dataValues.club_name}} Emblem">
     </div>
 </form>
 <div class="button-container">
     <button>
-        <a href="/clubs?action=edit" data-cy='edit-club-button'>
+        <a href="/clubs" data-cy='edit-club-button-detail'>
             ✏️
         </a>
     </button>
-    <button id="deleteButton">
-        <a href="#" data-cy='delete-club-button'>
-            🗑️
-        </a>
-    </button>
+    
+        <button id="delete-button">
+            <a href="#" class="delete-club" data-club-id="{{clubDetail.dataValues.id}}" data-cy='edit-club-button-delete'>
+                🗑️
+            </a>
+        </button>
+  
 </div>
 
-<div id="deletePopUp" class="popUp-delete-club-container">
+<div id="delete-club-popUp">
     <p class="title-popUp-delete">Are you sure you want to delete this club?</p>
-    <div class="corfirm-or-deny-buttons">
-        <button id="confirmDelete">Yes</button>
-        <button id="cancelDelete">No</button>
+    <div class="corfirm-or-deny-delete-buttons">
+        <button id="confirm-delete">Yes</button>
+        <button id="cancel-delete">No</button>
     </div>
 </div>
 
 <script>
-    document.getElementById('deleteButton').addEventListener('click', function () {
-        document.getElementById('deletePopUp').style.display = 'flex';
+
+    document.getElementById('cancel-delete').addEventListener('click', function () {
+        document.getElementById('delete-club-popUp').style.display = 'none';
     });
 
-    document.getElementById('cancelDelete').addEventListener('click', function () {
-        document.getElementById('deletePopUp').style.display = 'none';
-    });
+    document.getElementById('delete-button').addEventListener('click', function (event) {
+        
+        document.getElementById('delete-club-popUp').style.display = 'flex';
+        
+        document.getElementById('confirm-delete').addEventListener('click', async function () {
 
-    document.getElementById('confirmDelete').addEventListener('click', function () {
-        window.location.href = "/clubs?action=delete";
+            const clubId = event.target.getAttribute('data-club-id');
 
-        // Después de borrar el club redirigir a la pagina de inicio
-        // window.location.href = "/clubs";
-    });
+
+            // Utiliza event.target para obtener el elemento en el que se hizo clic
+
+
+            try {
+
+
+                const response = await fetch(`/clubs/${clubId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (response.ok) window.location.href = "/clubs";
+
+            }
+            catch (error) {
+                console.log(error.message);
+            }
+        })
+    })
 </script>
