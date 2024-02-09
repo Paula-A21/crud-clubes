@@ -72,14 +72,14 @@
     }
 </style>
 
-<table>
+<table data-cy='table-random-clubs-home'>
     <thead>
         <tr>
-            <th>Action</th>
-            <th>Teams</th>
+            <th data-cy='table-title-action'>Action</th>
+            <th data-cy='table-title-teams'>Teams</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody data-cy='random-clubs-home'>
         {{#each random_clubs as |club|}}
             <tr>
                 <td>
@@ -216,7 +216,7 @@
 
         try {
 
-            const response = await fetch(`/clubs/${clubId}`, {
+            const response = await fetch(`/clubs/${clubIdDelete}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

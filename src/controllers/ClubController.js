@@ -56,11 +56,11 @@ class ClubController {
       }
 
       const clubNameDto = club.club_name.toLowerCase().replace(/ /g, "");
-      const imagePathDetail = `/images/crests/${clubNameDto}.png`;
+      const image_path = `/images/crests/${clubNameDto}.png`;
 
       return res.render("detail-club", {
         club,
-        imagePathDetail
+        image_path
       });
 
     } catch (error) {
