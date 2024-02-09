@@ -21,14 +21,14 @@ class ClubController {
         const clubsDto = clubs.map((club) => {
           const club_name = club.club_name.toLowerCase().replace(/ /g, "");
           const imagePath = `/images/crests/${club_name}.png`;
-          
+
           return {
             ...club.toJSON(),
             imagePath
           };
         });
-        
-        return res.render("all-clubs", {clubs: clubsDto });
+
+        return res.render("all-clubs", { clubs: clubsDto });
       }
 
       const random_clubs = clubs.sort(() => 0.5 - Math.random()).slice(0, 3);
@@ -71,7 +71,43 @@ class ClubController {
 
   async updateClub(req, res) {
     try {
-      return res.render("detail-club", {});
+
+      const { id } = req.params;
+      const { club_name, club_adress, club_foundation_year } = req.body;
+      if (!club_name && !club_adress && !club_foundation_year) return res.status(400).json({ error: 'Missing club data' });
+
+      
+      const update_club = {};
+
+      if (club_name) {
+        update_club.club_name = club_name;
+      }
+      if (club_adress) {
+        update_club.club_adress = club_adress;
+      }
+      if (club_foundation_year) {
+        update_club.club_foundation_year = club_foundation_year;
+      }
+
+      const [updatedClub] = await this.Clubs.update(update_club, {
+        where: { id }
+      });
+
+
+      if (!updatedClub) return res.status(404).json({ error: 'Club not found' });
+
+      const clubNameDto = club_name.toLowerCase().replace(/ /g, "");
+      const imagePathDetail = `/images/crests/${clubNameDto}.png`;
+
+      const club = await this.Clubs.findOne({
+        where: {id}
+      })
+
+      return res.render("detail-club", {
+        club,
+        imagePathDetail
+      });
+
     } catch (error) {
       console.log(error.message);
       return res.status(500).json({ error: "An error has occurred" });
@@ -80,7 +116,7 @@ class ClubController {
 
   async deleteClub(req, res) {
     try {
-      
+
       const { id } = req.params;
 
       const deletedClubCount = await this.Clubs.destroy({
@@ -90,7 +126,7 @@ class ClubController {
       });
 
       if (deletedClubCount > 0) {
-        // El club se eliminó correctamente
+        // Si deletedClubCount se guarda cuantos campos se eliminaron 
         return res.render("delete-club");
       } else {
         // No se encontró el club para eliminar

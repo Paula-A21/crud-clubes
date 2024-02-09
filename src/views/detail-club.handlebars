@@ -64,9 +64,23 @@
         width: 200px;
         height: 200px;
     }
+
+    #update-club-popUp {
+        max-width: 500%;
+        position: absolute;
+        display: none;
+        margin: 30px auto;
+        padding: 20px;
+        backdrop-filter: blur (50px);
+        border-radius: 10px;
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+        background-color: rgba(38, 89, 133, 0.849);
+        color: black;
+        font-family: 'Garamond';
+    }
 </style>
 
-<form class="detail-container-club">
+<div class="detail-container-club">
     <div class="detail-club-content">
         Club name:
         {{club.dataValues.club_name}}
@@ -82,20 +96,20 @@
     <div class="club-crests-detail-image">
         <img src="{{imagePathDetail}}" alt="{{club.dataValues.club_name}} Emblem">
     </div>
-</form>
+</div>
 <div class="button-container">
-    <button>
-        <a href="/clubs" data-cy='edit-club-button-detail'>
+    <button id="update-button">
+        <a href="#" class="delete-club" data-club-update-id="{{club.dataValues.id}}" data-cy='club-button-update'>
             ✏️
         </a>
+    
     </button>
     
         <button id="delete-button">
-            <a href="#" class="delete-club" data-club-id="{{clubDetail.dataValues.id}}" data-cy='edit-club-button-delete'>
+            <a href="#" class="delete-club" data-club-delete-id="{{club.dataValues.id}}" data-cy='club-button-delete'>
                 🗑️
             </a>
         </button>
-  
 </div>
 
 <div id="delete-club-popUp">
@@ -106,8 +120,56 @@
     </div>
 </div>
 
+<form id="update-club-popUp" >
+    <div class="update-club-content">
+        <label for="club_name">Club name:</label>
+        <input type="text" id="club_name" name="club_name" value="{{club.dataValues.club_name}}">
+    </div>
+    <div class="update-club-content">
+        <label for="club_adress">Club address:</label>
+        <input type="text" id="club_adress" name="club_adress" value="{{club.dataValues.club_adress}}">
+    </div>
+    <div class="update-club-content">
+        <label for="club_foundation_year">Club foundation year:</label>
+        <input type="text" id="club_foundation_year" name="club_foundation_year" value="{{club.dataValues.club_foundation_year}}">
+    </div>
+    <button type="submit" id="confirm-update">Update Club</button>
+    <button id="cancel-update"> Cancel </button>
+</form>
+
 <script>
 
+    //update script
+    document.getElementById('update-button').addEventListener('click', function (event) {
+    document.getElementById('update-club-popUp').style.display = 'flex';
+
+    document.getElementById('confirm-update').addEventListener('click', async function () {
+        const clubId = event.target.getAttribute('data-club-update-id');
+
+        try {
+            const response = await fetch(`/clubs/${clubId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    club_name: document.getElementById('club_name').value,
+                    club_adress: document.getElementById('club_adress').value,
+                    club_foundation_year: document.getElementById('club_foundation_year').value
+                }),
+            });
+
+            console.log(response + " esta es la response")
+
+        } catch (error) {
+            console.log(error.message);
+        }
+    });
+});
+
+
+
+    //delete script
     document.getElementById('cancel-delete').addEventListener('click', function () {
         document.getElementById('delete-club-popUp').style.display = 'none';
     });
@@ -118,11 +180,8 @@
         
         document.getElementById('confirm-delete').addEventListener('click', async function () {
 
-            const clubId = event.target.getAttribute('data-club-id');
-
-
             // Utiliza event.target para obtener el elemento en el que se hizo clic
-
+            const clubId = event.target.getAttribute('data-club-delete-id');
 
             try {
 
