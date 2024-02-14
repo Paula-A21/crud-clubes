@@ -1,0 +1,24 @@
+[{
+  "id_UUID": "291d3573-d00d-47c9-afbf-f47c0c597f44",
+  "id": 2,
+  "club_name": "Hoffenheim",
+  "club_adress": "Horrenberger Straße 58 Zuzenhausen 74939",
+  "club_foundation_year": 1921,
+  "image_path": "/images/crests/hoffenheim.png"
+},
+{
+  "id_UUID": "fae6f6f3-35ca-4128-b5e9-fd2e1eebba75",
+  "id": 3,
+  "club_name": "Leverkusen",
+  "club_adress": "Bismarckstr. 122-124 Leverkusen 51373",
+  "club_foundation_year": 1904,
+  "image_path": "/images/crests/leverkusen.png"
+},
+{
+  "id_UUID": "addb0b6b-b4a3-4d82-b74d-14f1be719a38",
+  "id": 4,
+  "club_name": "Dortmund",
+  "club_adress": "Rheinlanddamm 207-209 Dortmund 44137",
+  "club_foundation_year": 1909,
+  "image_path": "/images/crests/dortmund.png"
+}]

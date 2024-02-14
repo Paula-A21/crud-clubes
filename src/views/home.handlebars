@@ -56,26 +56,40 @@
         justify-content: center;
         margin-top: 10px;
     }
+
+    #update-club-popUp {
+        max-width: 500%;
+        position: absolute;
+        display: none;
+        margin: 30px auto;
+        padding: 20px;
+        backdrop-filter: blur (50px);
+        border-radius: 10px;
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+        background-color: rgba(38, 89, 133, 0.849);
+        color: black;
+        font-family: 'Garamond';
+    }
 </style>
 
-<table>
+<table data-cy='table-random-clubs-home'>
     <thead>
         <tr>
-            <th>Action</th>
-            <th>Teams</th>
+            <th data-cy='table-title-action'>Action</th>
+            <th data-cy='table-title-teams'>Teams</th>
         </tr>
     </thead>
     <tbody>
         {{#each random_clubs as |club|}}
             <tr>
-                <td>
+                <td data-cy='random-clubs-home'>
                     {{club.dataValues.club_name}}
                 </td>
 
                 <td>
                     <a href="/clubs/{{club.dataValues.id}}" data-cy="view-club-href-home">View</a>,
-                    <a href="/clubs/{{club.dataValues.id}}" data-cy='update-club-href-home'>Update</a>,
-                    <a href="#" class="delete-club" data-club-id="{{club.dataValues.id}}"  data-cy='delete-club-href-home'>Delete</a>
+                    <a href="#" data-cy='update-club-href-home' home-id-update-club="{{club.dataValues.id}}" class="update-club-href">Update</a>,
+                    <a href="#" class="delete-club-href-home" home-id-delete-club="{{club.dataValues.id}}"  data-cy='delete-club-href-home'>Delete</a>
                 </td>
             </tr>
         {{/each}}
@@ -97,7 +111,79 @@
     </div>
 </div>
 
+<form id="update-club-popUp" >
+    <div class="update-club-content">
+        <label for="club_name">Club name:</label>
+        <input type="text" id="club_name" name="club_name">
+    </div>
+    <div class="update-club-content">
+        <label for="club_adress">Club address:</label>
+        <input type="text" id="club_adress" name="club_adress">
+    </div>
+    <div class="update-club-content">
+        <label for="club_foundation_year">Club foundation year:</label>
+        <input type="text" id="club_foundation_year" name="club_foundation_year">
+    </div>
+    <button type="submit" id="confirm-update">Update Club</button>
+    <button id="cancel-update"> Cancel </button>
+</form>
+
 <script>
+    //update script
+      let updateHrefs = document.querySelectorAll('#update-href');
+
+    // Hay que hacer un ciclo para ver todos los botones de update que se
+    // muestran en home
+    for (let i = 0; i < updateHrefs.length; i++) {
+        updateHrefs[i].addEventListener('click', function () {
+            document.getElementById('update-club-popUp').style.display = 'flex';
+        });
+    }
+
+    document.getElementById('cancel-update').addEventListener('click', function () {
+        document.getElementById('update-club-popUp').style.display = 'none';
+    });
+
+    let updateButtons = document.querySelectorAll('.update-club-href');
+    let clubIdUpdate;
+
+    for (let i = 0; i < updateButtons.length; i++) {
+        updateButtons[i].addEventListener('click', function (event) {
+            event.preventDefault();
+
+            clubIdUpdate = this.getAttribute('home-id-update-club');
+
+            document.getElementById('update-club-popUp').style.display = 'flex';
+
+        });
+    }
+    
+    document.getElementById('confirm-update').addEventListener('click', async function () {
+
+        try {
+
+            const response = await fetch(`/clubs/${clubIdUpdate}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    club_name: document.getElementById('club_name').value,
+                    club_adress: document.getElementById('club_adress').value,
+                    club_foundation_year: document.getElementById('club_foundation_year').value
+                }),
+            });
+
+            console.log(response + " esta es la response")
+            
+        }
+        catch (error) {
+            console.log(error.message);
+        }
+    })
+
+
+    //delete script
     let deleteHrefs = document.querySelectorAll('#delete-href');
 
     // Hay que hacer un ciclo para ver todos los botones de delete que se
@@ -112,14 +198,14 @@
         document.getElementById('delete-club-popUp').style.display = 'none';
     });
 
-    let deleteButtons = document.querySelectorAll('.delete-club');
-    let clubId;
+    let deleteButtons = document.querySelectorAll('.delete-club-href-home');
+    let clubIdDelete;
 
     for (let i = 0; i < deleteButtons.length; i++) {
         deleteButtons[i].addEventListener('click', function (event) {
             event.preventDefault();
 
-            clubId = this.getAttribute('data-club-id');
+            clubIdDelete = this.getAttribute('home-id-delete-club');
 
             document.getElementById('delete-club-popUp').style.display = 'flex';
 
@@ -130,7 +216,7 @@
 
         try {
 
-            const response = await fetch(`/clubs/${clubId}`, {
+            const response = await fetch(`/clubs/${clubIdDelete}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
