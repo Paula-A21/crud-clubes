@@ -79,17 +79,17 @@
             <th data-cy='table-title-teams'>Teams</th>
         </tr>
     </thead>
-    <tbody data-cy='random-clubs-home'>
+    <tbody>
         {{#each random_clubs as |club|}}
             <tr>
-                <td>
+                <td data-cy='random-clubs-home'>
                     {{club.dataValues.club_name}}
                 </td>
 
                 <td>
                     <a href="/clubs/{{club.dataValues.id}}" data-cy="view-club-href-home">View</a>,
                     <a href="#" data-cy='update-club-href-home' home-id-update-club="{{club.dataValues.id}}" class="update-club-href">Update</a>,
-                    <a href="#" class="delete-club-href" home-id-delete-club="{{club.dataValues.id}}"  data-cy='delete-club-href-home'>Delete</a>
+                    <a href="#" class="delete-club-href-home" home-id-delete-club="{{club.dataValues.id}}"  data-cy='delete-club-href-home'>Delete</a>
                 </td>
             </tr>
         {{/each}}
@@ -198,7 +198,7 @@
         document.getElementById('delete-club-popUp').style.display = 'none';
     });
 
-    let deleteButtons = document.querySelectorAll('.delete-club-href');
+    let deleteButtons = document.querySelectorAll('.delete-club-href-home');
     let clubIdDelete;
 
     for (let i = 0; i < deleteButtons.length; i++) {
